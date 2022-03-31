@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 void main() {
   runApp(const MyApp());
@@ -51,9 +52,23 @@ class _MyHomePageState extends State<MyHomePage> {
                   topLeft: Radius.circular(30), topRight: Radius.circular(30)),
             ),
             child: ListView.builder(
+              // itemCountは何回繰り返しをするかの指定
               itemCount: todolists.length,
               itemBuilder: (BuildContext context, int index) {
-                return Text(todolists[index]);
+                return Slidable(
+                    actionPane: SlidableDrawerActionPane(),
+                    secondaryActions: [
+                      IconSlideAction(
+                        caption: "aaa",
+                        color: Colors.red,
+                        icon: Icons.delete,
+                        onTap: () {},
+                      ),
+                    ],
+                    child: Text(
+                      todolists[index],
+                      style: TextStyle(fontSize: 80),
+                    ));
               },
             )),
       ),
