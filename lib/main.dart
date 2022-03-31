@@ -55,20 +55,31 @@ class _MyHomePageState extends State<MyHomePage> {
               // itemCountは何回繰り返しをするかの指定
               itemCount: todolists.length,
               itemBuilder: (BuildContext context, int index) {
-                return Slidable(
-                    actionPane: SlidableDrawerActionPane(),
-                    secondaryActions: [
-                      IconSlideAction(
-                        caption: "aaa",
-                        color: Colors.red,
-                        icon: Icons.delete,
-                        onTap: () {},
-                      ),
-                    ],
-                    child: Text(
-                      todolists[index],
-                      style: TextStyle(fontSize: 80),
-                    ));
+                return Padding(
+                    padding: const EdgeInsets.only(top: 10, bottom: 10),
+                    child: Slidable(
+                        actionPane: SlidableDrawerActionPane(),
+                        secondaryActions: [
+                          IconSlideAction(
+                            caption: "delete",
+                            color: Colors.red,
+                            icon: Icons.delete,
+                            onTap: () {},
+                          ),
+                        ],
+                        child: Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            height: 70,
+                            decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(10),
+                                  bottomRight: Radius.circular(10),
+                                )),
+                            child: Text(
+                              todolists[index],
+                              style: TextStyle(fontSize: 30),
+                            ))));
               },
             )),
       ),
