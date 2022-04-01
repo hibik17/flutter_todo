@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -33,6 +35,15 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   // sample データの作成
   List<String> todolists = ["起きる", "寝る", "食べる"];
+
+  // +buttonが押された際に、ダイアログを出す処理のクラス
+  displaydialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(title: Text("data"), content: TextField());
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +94,11 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             )),
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            displaydialog(context);
+          },
+          child: Icon(Icons.add)),
     );
   }
 }
