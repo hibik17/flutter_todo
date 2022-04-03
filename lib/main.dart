@@ -33,15 +33,40 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  TextEditingController textcontroller = TextEditingController();
   // sample データの作成
   List<String> todolists = ["起きる", "寝る", "食べる"];
-
+  String todo = "";
   // +buttonが押された際に、ダイアログを出す処理のクラス
+
   displaydialog(BuildContext context) {
     return showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(title: Text("data"), content: TextField());
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+                title: Text(todo),
+                content: TextField(
+                    controller: textcontroller,
+                    onChanged: (v) {
+                      setState(() {
+                        todo = v;
+                      });
+                    }),
+                actions: [
+                  ElevatedButton(
+                      onPressed: todo.isEmpty
+                          ? null
+                          : () {
+                              setState(() {
+                                todolists.add(todo);
+                                textcontroller.clear();
+                                Navigator.pop(context);
+                              });
+                            },
+                      child: Text("追加"))
+                ]);
+          });
         });
   }
 
