@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,8 +38,21 @@ class _MyHomePageState extends State<MyHomePage> {
   // sample データの作成
   List<String> todolists = ["起きる", "寝る", "食べる"];
   String todo = "";
-  // +buttonが押された際に、ダイアログを出す処理のクラス
 
+  // データを取り出す処理を作成
+  initdata() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var result = prefs.getStringList("todo");
+    if (result != null) {
+      setState(() {
+        todolists = result;
+      });
+    }
+  }
+
+  // todoのupdateを作成
+
+  // +buttonが押された際に、ダイアログを出す処理のクラス
   displaydialog(BuildContext context) {
     return showDialog(
         context: context,
