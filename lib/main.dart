@@ -34,13 +34,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  // textcontrollerの宣言
   TextEditingController textcontroller = TextEditingController();
+
   // sample データの作成
-  List<String> todolists = ["起きる", "寝る", "食べる"];
+  List<String> todolists = [];
   String todo = "";
 
+  void initState() {
+    super.initState();
+  }
+
   // データを取り出す処理を作成
-  initdata() async {
+  initData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var result = prefs.getStringList("todo");
     if (result != null) {
@@ -50,7 +56,12 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  // todoのupdateを作成
+  // updateをする処理の定義
+  updateData(List<String> todolists) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var result = prefs.setStringList("todo", todolists);
+    initData();
+  }
 
   // +buttonが押された際に、ダイアログを出す処理のクラス
   displaydialog(BuildContext context) {
@@ -59,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (context) {
           return StatefulBuilder(builder: (context, setState) {
             return AlertDialog(
-                title: Text(todo),
+                title: Text("やることのリストを作成"),
                 content: TextField(
                     controller: textcontroller,
                     onChanged: (v) {
@@ -75,6 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               setState(() {
                                 todolists.add(todo);
                                 textcontroller.clear();
+                                updateData(todolists);
                                 Navigator.pop(context);
                               });
                             },
@@ -114,7 +126,13 @@ class _MyHomePageState extends State<MyHomePage> {
                             caption: "delete",
                             color: Colors.red,
                             icon: Icons.delete,
-                            onTap: () {},
+                            onTap: () {
+                              setState(() {
+                                todolists.remove(todolists[index]);
+                                textcontroller.clear();
+                                updateData(todolists);
+                              });
+                            },
                           ),
                         ],
                         child: Container(
